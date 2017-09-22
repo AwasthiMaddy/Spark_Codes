@@ -1,31 +1,18 @@
 # -*- coding: utf-8 -*-
-# <nbformat>3.0</nbformat>
-
-# <codecell>
 
 from timeit import default_timer as timer
-
-# <codecell>
 
 # Start the time
 start = timer()
 
-# <codecell>
-
 from pyspark import SparkContext
 from pyspark import SparkFiles
 
-# <codecell>
-
 sc = SparkContext()
-
-# <codecell>
 
 import cv2
 import numpy as np
 import pickle
-
-# <codecell>
 
 # Images directory
 # Add here the path of the directory which has images.
@@ -37,20 +24,14 @@ img_dir = './my_images/'
 # After the face is detected in the image, we will draw a rectangle around the face in the image & store that image in the below directory.
 rect_img_dir = './face_detected/'
 
-# <codecell>
-
 # Haar Cascade Classifier (from OpenCV library)
 # This classifier will be used to detect front faces in the images.
 # Give below the path of the classifier.
 distCascade = "./haarcascade_frontalface_default.xml"
 
-# <codecell>
-
 # This adds the Cascade file on different nodes in Spark cluster.
 # This is necessary if you run this spark code on muti-node spark cluster.
 sc.addFile(distCascade)
-
-# <codecell>
 
 # Converting the images into RDD
 images_RDD = sc.binaryFiles(img_dir)
@@ -93,12 +74,9 @@ print result
 # End time
 end = timer()
 
-# <codecell>
-
 # Total time taken by this script
 time_taken = (end-start)
 print "Total time taken in detecting faces in "+ str(len(result)) + " images is "+ str(time_taken) +" seconds."
 
 # Save the face detection result in the form of pickle
 pickle.dump(result,open("./face_detection_result.p","wb"))
-
